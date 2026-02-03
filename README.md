@@ -14,12 +14,12 @@ A full-stack Fintech dashboard application built to demonstrate comprehensive te
 
 The project implements a multi-layered testing approach:
 
-| Type | Tool | Scope |
-|------|------|-------|
-| **Unit** | PHPUnit | Backend service logic (Atomic transfers, validation) |
-| **API** | Codeception | REST API endpoints (Status codes, response structure) |
-| **Component** | Vitest | Frontend components (Form interactions, rendering) |
-| **E2E** | Playwright | Full user journey (Login -> Balance -> Transfer -> Verify) |
+| Type | Tool | Scope | Source Location |
+|------|------|-------|-----------------|
+| **Unit** | PHPUnit | Backend logic (Atomic transfers, validation) | `backend/tests/Unit/TransactionServiceTest.php` |
+| **API** | Codeception | REST API endpoints (Status, JSON structure) | `backend/tests/Api/TransferCest.php` |
+| **Component** | Vitest | Frontend UI (Form interactions, rendering) | `frontend/src/components/TransferForm.test.tsx` |
+| **E2E** | Playwright | Full user journey (Dashboard flow) | `e2e/tests/transfer.spec.ts` |
 
 ## 🛠️ Setup & Installation
 
