@@ -18,7 +18,7 @@ The project implements a multi-layered testing approach:
 |------|------|-------|-----------------|
 | **Unit** | PHPUnit | Backend logic (Atomic transfers, validation) | `backend/tests/Unit/TransactionServiceTest.php` |
 | **API** | Codeception | REST API endpoints (Status, JSON structure) | `backend/tests/Api/TransferCest.php` |
-| **Component** | Vitest | Frontend UI (Form interactions, rendering) | `frontend/src/components/TransferForm.test.tsx` |
+| **Frontend Unit** | Vitest | UI Component logic (Form rendering, submission) | `frontend/src/components/TransferForm.test.tsx` |
 | **E2E** | Playwright | Full user journey (Dashboard flow) | `e2e/tests/transfer.spec.ts` |
 
 ## 🛠️ Setup & Installation
