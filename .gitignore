@@ -1,0 +1,28 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project folders
+/backend/vendor
+/backend/.env
+/backend/storage/*.key
+/backend/public/storage
+/backend/tests/_output/*
+
+/frontend/node_modules
+/frontend/dist
+/frontend/*.json
+!/frontend/package.json
+!/frontend/tsconfig*.json
+/frontend/frontend_unit_report.html
+
+/e2e/node_modules
+/e2e/playwright-report
+/e2e/test-results
+
+# Test Results
+/test results/
+*.log
+
+# Docker
+.docker_data
