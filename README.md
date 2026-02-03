@@ -21,14 +21,29 @@ The project implements a multi-layered testing approach:
 | **Frontend Unit** | Vitest | UI Component logic (Form rendering, submission) | `frontend/src/components/TransferForm.test.tsx` |
 | **E2E** | Playwright | Full user journey (Dashboard flow) | `e2e/tests/transfer.spec.ts` |
 
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+- **Docker & Docker Compose** (Recommended)
+- **Node.js 20+** (For local frontend)
+- **PHP 8.4 & Composer** (For local backend)
+- **PostgreSQL** (For local database)
+
 ## 🛠️ Setup & Installation
 
 ### Option A: Docker (Recommended)
 
-Run the entire stack with a single command.
+Run the entire stack with these commands:
 
 ```bash
+# 1. Start containers
 docker-compose up --build -d
+
+# 2. Generate application key
+docker-compose exec app php artisan key:generate
+
+# 3. Setup database & seeds
+docker-compose exec app php artisan migrate --seed --force
 ```
 
 - **Frontend**: [http://localhost:3000](http://localhost:3000)
@@ -36,21 +51,28 @@ docker-compose up --build -d
 
 ### Option B: Local Development
 
-**Backend**
+**1. Backend Setup**
 ```bash
 cd backend
 composer install
 cp .env.example .env
+# Edit .env to match your local PostgreSQL credentials
+php artisan key:generate
 php artisan migrate --seed
 php artisan serve --port=8888
 ```
 
-**Frontend**
+**2. Frontend Setup**
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
+
+### 👤 Demo Credentials
+Login is automated in the demo, but you can use:
+- **Email**: `test@example.com`
+- **Password**: `password`
 
 ## 📊 Automated Test Reporting
 
