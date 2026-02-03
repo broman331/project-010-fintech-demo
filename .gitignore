@@ -21,7 +21,7 @@ Thumbs.db
 /e2e/test-results
 
 # Test Results
-/test results/
+# /test results/ unignored for showcase
 *.log
 
 # Docker
