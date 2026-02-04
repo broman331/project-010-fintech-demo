@@ -71,7 +71,10 @@ jobs:
           extensions: mbstring, xml, ctype, iconv, intl, pdo_pgsql, bcmath, gd, exif, zip, pdo, fileinfo, tokenizer, openssl, json
 
       - name: Setup Env
-        run: cd backend && cp .env.example .env
+        run: |
+          cd backend
+          cp .env.example .env
+          sed -i 's|APP_URL=http://localhost|APP_URL=http://web|g' .env
 
       - name: Install Dependencies (Host)
         run: cd backend && composer install --no-progress --no-scripts --ignore-platform-reqs
