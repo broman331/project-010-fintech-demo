@@ -15,7 +15,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: '8.5'
           extensions: mbstring, xml, ctype, iconv, intl, pdo_pgsql, bcmath, gd, exif
       - name: Install Dependencies
         run: cd backend && composer install --no-progress
@@ -58,14 +58,14 @@ jobs:
       
       - name: Start Environment
         run: |
-          docker-compose up -d --build
+          docker compose up -d --build
           # Wait for DB to be ready
           docker exec fintest-db sh -c 'until pg_isready -U postgres; do sleep 1; done'
-          docker-compose exec -T app php artisan key:generate
-          docker-compose exec -T app php artisan migrate --seed --force
+          docker compose exec -T app php artisan key:generate
+          docker compose exec -T app php artisan migrate --seed --force
           
       - name: Run API Tests (Inside Container)
-        run: docker-compose exec -T app vendor/bin/codecept run Api --html api_report.html
+        run: docker compose exec -T app vendor/bin/codecept run Api --html api_report.html
         
       - name: Setup E2E
         run: |
