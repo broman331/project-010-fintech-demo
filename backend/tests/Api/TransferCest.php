@@ -28,7 +28,11 @@ class TransferCest
         ]);
 
         $I->seeResponseCodeIs(201);
-        $I->seeResponseContainsJson(['amount' => 50]);
+        $I->seeResponseContainsJson([
+            'transaction' => ['amount' => 50],
+            'from_account_balance' => '950.00',
+            'to_account_balance' => '550.00'
+        ]);
     }
 
     public function transferValidationFails(ApiTester $I)

@@ -39,7 +39,12 @@ class TransactionController extends Controller
                 $validated['to_account_id'],
                 $validated['amount']
             );
-            return response()->json($transaction, 201);
+
+            return response()->json([
+                'transaction' => $transaction,
+                'from_account_balance' => $transaction->fromAccount->balance,
+                'to_account_balance' => $transaction->toAccount->balance,
+            ], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }
