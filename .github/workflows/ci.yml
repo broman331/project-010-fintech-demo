@@ -25,16 +25,18 @@ jobs:
         run: cd backend && vendor/bin/pint --test
       - name: Generate App Key
         run: cd backend && php artisan key:generate
+      - name: Run Package Discovery
+        run: cd backend && php artisan package:discover --ansi
       - name: Prepare Report Directory
         run: mkdir -p backend/tests/_output
       - name: Run Unit Tests
-        run: cd backend && vendor/bin/codecept run Unit --html unit_report.html
+        run: cd backend && php artisan test -v --log-junit backend/tests/_output/junit.xml
       - name: Upload Unit Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: backend-unit-report
-          path: backend/tests/_output/unit_report.html
+          path: backend/tests/_output/junit.xml
 
   frontend-unit:
     name: Frontend Unit & Lint
