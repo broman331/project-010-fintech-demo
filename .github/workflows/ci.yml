@@ -17,12 +17,14 @@ jobs:
         with:
           php-version: '8.3'
           extensions: mbstring, xml, ctype, iconv, intl, pdo_pgsql, bcmath, gd, exif, pdo_sqlite, sqlite3, dom, curl, libxml, zip, pdo, fileinfo, tokenizer, openssl, json
+      - name: Setup Env
+        run: cd backend && cp .env.example .env
       - name: Install Dependencies
         run: cd backend && composer install --no-progress
       - name: Run Pint (Style)
         run: cd backend && vendor/bin/pint --test
-      - name: Setup App Key
-        run: cd backend && cp .env.example .env && php artisan key:generate
+      - name: Generate App Key
+        run: cd backend && php artisan key:generate
       - name: Prepare Report Directory
         run: mkdir -p backend/tests/_output
       - name: Run Unit Tests
@@ -65,6 +67,9 @@ jobs:
         with:
           php-version: '8.3'
           extensions: mbstring, xml, ctype, iconv, intl, pdo_pgsql, bcmath, gd, exif, zip, pdo, fileinfo, tokenizer, openssl, json
+
+      - name: Setup Env
+        run: cd backend && cp .env.example .env
 
       - name: Install Dependencies (Host)
         run: cd backend && composer install --no-progress
