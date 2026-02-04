@@ -16,11 +16,15 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_pgsql, bcmath, gd, exif, pdo_sqlite
+          extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, bcmath, gd, exif, pdo_pgsql, intl
       - name: Install Dependencies
         run: cd backend && composer install --no-progress
       - name: Run Pint (Style)
         run: cd backend && vendor/bin/pint --test
+      - name: Setup App Key
+        run: cd backend && cp .env.example .env && php artisan key:generate
+      - name: Prepare Report Directory
+        run: mkdir -p backend/tests/_output
       - name: Run Unit Tests
         run: cd backend && vendor/bin/codecept run Unit --html unit_report.html
       - name: Upload Unit Report
@@ -58,7 +62,7 @@ jobs:
       
       - name: Start Environment
         run: |
-          docker compose up -d --build
+          docker compose up -d --build || (docker compose ps && docker compose logs && exit 1)
           # Wait for DB to be ready
           docker exec fintest-db sh -c 'until pg_isready -U postgres; do sleep 1; done'
           docker compose exec -T app php artisan key:generate
