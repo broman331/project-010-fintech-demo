@@ -1,0 +1,69 @@
+name: CI Suite
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend-unit:
+    name: Backend Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_pgsql
+      - name: Install Dependencies
+        run: cd backend && composer install --no-progress
+      - name: Run Unit Tests
+        run: cd backend && vendor/bin/codecept run Unit
+
+  frontend-unit:
+    name: Frontend Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Dependencies
+        run: cd frontend && npm install
+      - name: Run Unit Tests
+        run: cd frontend && npm run test
+
+  integration-e2e:
+    name: API & E2E Integration
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Start Environment
+        run: |
+          docker-compose up -d --build
+          docker-compose exec -T app php artisan key:generate
+          docker-compose exec -T app php artisan migrate --seed --force
+          
+      - name: Run API Tests (Inside Container)
+        run: docker-compose exec -T app vendor/bin/codecept run Api
+        
+      - name: Setup E2E
+        run: |
+          cd e2e
+          npm install
+          npx playwright install --with-deps chromium
+          
+      - name: Run E2E Tests
+        # Run against the dockerized frontend at http://localhost:3000
+        run: cd e2e && npx playwright test --workers=1 --project=chromium
+        
+      - name: Upload E2E Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: e2e/playwright-report/
