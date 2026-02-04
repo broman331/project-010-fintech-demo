@@ -1,5 +1,7 @@
 # FinTest - Fintech Dashboard QA Project
 
+![CI Suite](https://github.com/broman331/project-010-fintech-demo/actions/workflows/ci.yml/badge.svg)
+
 A full-stack Fintech dashboard application built to demonstrate comprehensive testing strategies across backend, frontend, and end-to-end flows.
 
 ## 🚀 Tech Stack
@@ -73,6 +75,18 @@ npm run dev
 Login is automated in the demo, but you can use:
 - **Email**: `test@example.com`
 - **Password**: `password`
+
+## ⚙️ CI/CD Pipeline
+
+This project uses **GitHub Actions** for Continuous Integration. The workflow (`.github/workflows/ci.yml`) automatically runs on every push to the `main` branch and on pull requests.
+
+The pipeline includes:
+- **Backend Unit Tests**: Dedicated PHP 8.4 environment.
+- **Frontend Unit Tests**: Node.js environment.
+- **Integration & E2E**: 
+    - Spins up full stack via Docker Compose.
+    - Runs API tests inside the container.
+    - Runs Playwright E2E tests against the live environment.
 
 ## 📊 Automated Test Reporting
 
