@@ -13,6 +13,7 @@ Thumbs.db
 /frontend/dist
 /frontend/*.json
 !/frontend/package.json
+!/frontend/package-lock.json
 !/frontend/tsconfig*.json
 /frontend/frontend_unit_report.html
 
