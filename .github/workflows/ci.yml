@@ -20,7 +20,7 @@ jobs:
       - name: Setup Env
         run: cd backend && cp .env.example .env
       - name: Install Dependencies
-        run: cd backend && composer install --no-progress --no-scripts
+        run: cd backend && composer install --no-progress --no-scripts --ignore-platform-reqs
       - name: Run Pint (Style)
         run: cd backend && vendor/bin/pint --test
       - name: Generate App Key
@@ -72,7 +72,7 @@ jobs:
         run: cd backend && cp .env.example .env
 
       - name: Install Dependencies (Host)
-        run: cd backend && composer install --no-progress --no-scripts
+        run: cd backend && composer install --no-progress --no-scripts --ignore-platform-reqs
 
       - name: Start Environment
         run: |
