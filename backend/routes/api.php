@@ -14,8 +14,10 @@ Route::post('/login', function (Request $request) {
     if (Illuminate\Support\Facades\Auth::attempt($credentials)) {
         $user = Illuminate\Support\Facades\Auth::user();
         $token = $user->createToken('test-token')->plainTextToken;
+
         return response()->json(['token' => $token]);
     }
+
     return response()->json(['error' => 'Unauthorized'], 401);
 });
 

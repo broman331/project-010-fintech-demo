@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import api, { setAuthToken } from './api';
 import type { Account, Transaction } from './types';
 import BalanceDisplay from './components/BalanceDisplay';
@@ -25,7 +25,7 @@ function App() {
     login();
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!token) return;
     try {
       const accRes = await api.get('/user/accounts');
@@ -35,11 +35,12 @@ function App() {
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchData();
-  }, [token]);
+  }, [fetchData]);
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">

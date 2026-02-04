@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\User;
 use App\Models\Account;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TransactionServiceTest extends TestCase
@@ -19,7 +19,7 @@ class TransactionServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new \App\Services\TransactionService();
+        $this->service = new \App\Services\TransactionService;
     }
 
     public function test_can_transfer_money_successfully()
@@ -35,7 +35,7 @@ class TransactionServiceTest extends TestCase
         $this->assertDatabaseHas('transactions', [
             'from_account_id' => $account1->id,
             'to_account_id' => $account2->id,
-            'amount' => 30
+            'amount' => 30,
         ]);
     }
 
@@ -46,7 +46,7 @@ class TransactionServiceTest extends TestCase
         $account2 = Account::create(['user_id' => $user->id, 'account_number' => 'ACC2', 'balance' => 50, 'currency' => 'USD']);
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Insufficient funds");
+        $this->expectExceptionMessage('Insufficient funds');
 
         $this->service->transfer($account1->id, $account2->id, 30);
     }
@@ -58,9 +58,8 @@ class TransactionServiceTest extends TestCase
         $account2 = Account::create(['user_id' => $user->id, 'account_number' => 'ACC2', 'balance' => 50, 'currency' => 'USD']);
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Amount must be positive");
+        $this->expectExceptionMessage('Amount must be positive');
 
         $this->service->transfer($account1->id, $account2->id, -10);
     }
-
 }

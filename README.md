@@ -81,12 +81,24 @@ Login is automated in the demo, but you can use:
 This project uses **GitHub Actions** for Continuous Integration. The workflow (`.github/workflows/ci.yml`) automatically runs on every push to the `main` branch and on pull requests.
 
 The pipeline includes:
-- **Backend Unit Tests**: Dedicated PHP 8.4 environment.
-- **Frontend Unit Tests**: Node.js environment.
+- **Backend Unit & Lint**: 
+    - Dedicated PHP 8.4 environment.
+    - Automated code style enforcement using **Laravel Pint**.
+- **Frontend Unit & Lint**: 
+    - Node.js environment.
+    - Static analysis and linting via **ESLint**.
+    - Type safety verification with **TypeScript**.
 - **Integration & E2E**: 
     - Spins up full stack via Docker Compose.
+    - Automated health checks for database and services.
     - Runs API tests inside the container.
     - Runs Playwright E2E tests against the live environment.
+
+### 📦 CI Artifacts
+Upon completion, the pipeline uploads the following reports:
+- `backend-unit-report`: Codeception HTML unit results.
+- `backend-api-report`: Codeception HTML API results.
+- `playwright-report`: Full Playwright E2E report with traces.
 
 ## 📊 Automated Test Reporting
 

@@ -25,14 +25,14 @@ class DatabaseSeeder extends Seeder
             'user_id' => $user->id,
             'account_number' => 'US1234567890',
             'balance' => 1000.00,
-            'currency' => 'USD'
+            'currency' => 'USD',
         ]);
 
         \App\Models\Account::create([
             'user_id' => $user->id,
             'account_number' => 'EU0987654321',
             'balance' => 500.00,
-            'currency' => 'EUR'
+            'currency' => 'EUR',
         ]);
 
         // Create a second user for transfer tests
@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => $user2->id,
             'account_number' => 'US0000000002',
             'balance' => 100.00,
-            'currency' => 'USD'
+            'currency' => 'USD',
         ]);
     }
 }

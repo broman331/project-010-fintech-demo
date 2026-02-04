@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Account } from '../types';
+import axios from 'axios';
 import api from '../api';
 
 interface Props {
@@ -30,8 +31,12 @@ const TransferForm = ({ accounts, onTransferSuccess }: Props) => {
             setSuccess('Transfer successful!');
             setAmount('');
             onTransferSuccess();
-        } catch (err: any) {
-            setError(err.response?.data?.message || err.response?.data?.error || 'Transfer failed');
+        } catch (err: unknown) {
+            let message = 'Transfer failed';
+            if (axios.isAxiosError(err)) {
+                message = err.response?.data?.message || err.response?.data?.error || message;
+            }
+            setError(message);
         } finally {
             setLoading(false);
         }

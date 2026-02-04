@@ -8,7 +8,7 @@ on:
 
 jobs:
   backend-unit:
-    name: Backend Unit Tests
+    name: Backend Unit & Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,11 +19,19 @@ jobs:
           extensions: mbstring, xml, ctype, iconv, intl, pdo_pgsql
       - name: Install Dependencies
         run: cd backend && composer install --no-progress
+      - name: Run Pint (Style)
+        run: cd backend && vendor/bin/pint --test
       - name: Run Unit Tests
-        run: cd backend && vendor/bin/codecept run Unit
+        run: cd backend && vendor/bin/codecept run Unit --html unit_report.html
+      - name: Upload Unit Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-unit-report
+          path: backend/tests/_output/unit_report.html
 
   frontend-unit:
-    name: Frontend Unit Tests
+    name: Frontend Unit & Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,8 +39,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
       - name: Install Dependencies
         run: cd frontend && npm install
+      - name: Run Lint
+        run: cd frontend && npm run lint
+      - name: Run Build (Type Check)
+        run: cd frontend && npm run build
       - name: Run Unit Tests
         run: cd frontend && npm run test
 
@@ -45,11 +59,13 @@ jobs:
       - name: Start Environment
         run: |
           docker-compose up -d --build
+          # Wait for DB to be ready
+          docker exec fintest-db sh -c 'until pg_isready -U postgres; do sleep 1; done'
           docker-compose exec -T app php artisan key:generate
           docker-compose exec -T app php artisan migrate --seed --force
           
       - name: Run API Tests (Inside Container)
-        run: docker-compose exec -T app vendor/bin/codecept run Api
+        run: docker-compose exec -T app vendor/bin/codecept run Api --html api_report.html
         
       - name: Setup E2E
         run: |
@@ -61,6 +77,13 @@ jobs:
         # Run against the dockerized frontend at http://localhost:3000
         run: cd e2e && npx playwright test --workers=1 --project=chromium
         
+      - name: Upload API Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-api-report
+          path: backend/tests/_output/api_report.html
+
       - name: Upload E2E Report
         if: always()
         uses: actions/upload-artifact@v4

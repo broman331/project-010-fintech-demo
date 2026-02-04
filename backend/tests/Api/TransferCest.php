@@ -24,14 +24,14 @@ class TransferCest
         $I->sendPost('/transfers', [
             'from_account_id' => 1,
             'to_account_id' => 2,
-            'amount' => 50
+            'amount' => 50,
         ]);
 
         $I->seeResponseCodeIs(201);
         $I->seeResponseContainsJson([
             'transaction' => ['amount' => 50],
             'from_account_balance' => '950.00',
-            'to_account_balance' => '550.00'
+            'to_account_balance' => '550.00',
         ]);
     }
 
@@ -46,13 +46,13 @@ class TransferCest
         $I->sendPost('/transfers', [
             'from_account_id' => 1,
             'to_account_id' => 2,
-            'amount' => 1000000 // Insufficient
+            'amount' => 1000000, // Insufficient
         ]);
         $I->seeResponseCodeIs(422);
 
         // Invalid input
         $I->sendPost('/transfers', [
-            'amount' => -10
+            'amount' => -10,
         ]);
         $I->seeResponseCodeIs(422); // Validation error
     }

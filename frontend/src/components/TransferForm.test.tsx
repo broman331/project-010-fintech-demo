@@ -19,7 +19,7 @@ describe('TransferForm', () => {
     });
 
     it('submits transfer successfully', async () => {
-        (api.post as any).mockResolvedValueOnce({ data: { id: 100 } });
+        vi.mocked(api.post).mockResolvedValueOnce({ data: { id: 100 } });
         render(<TransferForm accounts={mockAccounts} onTransferSuccess={mockOnSuccess} />);
 
         // Select from account
