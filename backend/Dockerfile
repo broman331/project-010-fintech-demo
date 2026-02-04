@@ -1,4 +1,4 @@
-FROM php:8.5-fpm-alpine
+FROM php:8.4-fpm-alpine
 
 # Install system dependencies
 RUN apk add --no-cache \
@@ -24,8 +24,15 @@ WORKDIR /var/www
 # Copy existing application directory contents
 COPY . /var/www
 
+# Argument to control dev dependencies
+ARG INSTALL_DEV=false
+
 # Install dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN if [ "$INSTALL_DEV" = "true" ] ; then \
+    composer install --optimize-autoloader ; \
+    else \
+    composer install --no-dev --optimize-autoloader ; \
+    fi
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
