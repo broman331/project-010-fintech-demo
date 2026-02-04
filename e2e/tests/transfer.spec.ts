@@ -1,57 +1,50 @@
 import { test, expect } from '@playwright/test';
 
 test('User can view balance and transfer funds', async ({ page }) => {
-    // Go to app
+    // Navigate to the app
     await page.goto('http://localhost:3000');
 
-    // Verify Title
+    // Wait for the Dashboard to load
     await expect(page.getByText('FinTest Dashboard')).toBeVisible();
+    await expect(page.getByText('Your Accounts')).toBeVisible();
 
-    // Verify Initial Balance
-    // User 1 has Account US123... (Balance 1000 or 950 or something depending on previous API tests).
-    // API tests ran against same DB? Yes.
-    // Previous API tests did:
-    // 1. Transfer 50 (1000 -> 950).
-    // 2. Transer fails (1000000).
-    // 3. Transfer fails (-10).
-    // So Balance should be 950.
-    // Wait, I am running `php artisan serve` for backend.
-    // API tests ran against it.
-    // So DB state is mutated.
-    // Account 1 balance: 950.
-    // To verify balance, we can check text roughly or just presence.
+    const account1Number = 'US1234567890';
+    const account2Number = 'EU0987654321';
 
-    await expect(page.getByText('US1234567890').first()).toBeVisible();
+    // Instead of hardcoding 1000.00, we grab the CURRENT balance 
+    // to make the test resilient to shared DB state across workers.
+    const acc1Card = page.locator('div.bg-gray-50').filter({ hasText: account1Number });
+    const acc2Card = page.locator('div.bg-gray-50').filter({ hasText: account2Number });
 
-    // Wait for balances to load
-    await expect(page.getByText('USD').first()).toBeVisible();
+    // Wait for any numeric value to appear in the card
+    await expect(acc1Card.locator('p.text-2xl')).toContainText(/\d+\.\d+/);
+
+    const acc1InitialText = await acc1Card.locator('p.text-2xl').innerText();
+    const acc2InitialText = await acc2Card.locator('p.text-2xl').innerText();
+
+    const acc1InitialBalance = parseFloat(acc1InitialText.replace(/[^\d.-]/g, ''));
+    const acc2InitialBalance = parseFloat(acc2InitialText.replace(/[^\d.-]/g, ''));
+
+    const transferAmount = 10.00;
 
     // Perform Transfer
-    // Select From Account (Select first option with value 1?)
     await page.locator('select').selectOption('1');
-
-    // Enter To Account ID
     await page.getByPlaceholder('Enter destination account ID').fill('2');
-
-    // Enter Amount
-    await page.getByPlaceholder('0.00').fill('10');
-
-    // Click Transfer
+    await page.getByPlaceholder('0.00').fill(transferAmount.toString());
     await page.getByRole('button', { name: 'Transfer' }).click();
 
-    // Allow time for processing and refresh
+    // Verify Success message
     await expect(page.getByText('Transfer successful!')).toBeVisible();
 
-    // Verify Transaction in list
-    // Should see "Transfer" and "10.00"
-    await expect(page.locator('text=10.00').first()).toBeVisible(); // Might match balance too?
-    // Transaction list is on the right.
-    // Check if "Transfer" appears.
-    await expect(page.getByText('Transfer').first()).toBeVisible();
+    // Calculate expected balances
+    const expectedAcc1 = (acc1InitialBalance - transferAmount).toFixed(2);
+    const expectedAcc2 = (acc2InitialBalance + transferAmount).toFixed(2);
 
-    // Verify Balance updated
-    // Was 950, now 940.
-    // API tests might have run multiple times if I re-ran them.
-    // So exact balance check is risky. 
-    // But we can check if it stays visible.
+    // Verify updated balances with a timeout for the refetch
+    await expect(acc1Card.getByText(expectedAcc1)).toBeVisible({ timeout: 15000 });
+    await expect(acc2Card.getByText(expectedAcc2)).toBeVisible({ timeout: 15000 });
+
+    // Verify the transaction appeared in the recent transactions list
+    await expect(page.getByText('Transfer').first()).toBeVisible();
+    await expect(page.getByText(transferAmount.toFixed(2)).first()).toBeVisible();
 });

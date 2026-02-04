@@ -32,7 +32,7 @@ rm "results_$TIMESTAMP.json"
 # 4. E2E Tests
 echo "Running E2E tests..."
 cd "$ROOT_DIR/e2e"
-npx playwright test --reporter=html > /dev/null 2>&1
+npx playwright test --reporter=html --workers=1 > /dev/null 2>&1
 # The Playwright HTML report is in playwright-report/index.html
 # We move it and also move the assets/data if they are needed, 
 # but per user request we just move the file to a timestamped name.
