@@ -10,10 +10,12 @@ RUN apk add --no-cache \
     git \
     curl \
     libpq-dev \
-    oniguruma-dev
+    oniguruma-dev \
+    libzip-dev \
+    icu-dev
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip intl
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

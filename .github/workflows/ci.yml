@@ -30,7 +30,7 @@ jobs:
       - name: Prepare Report Directory
         run: mkdir -p backend/tests/_output
       - name: Run Unit Tests
-        run: cd backend && php artisan test -v --log-junit backend/tests/_output/junit.xml
+        run: cd backend && php artisan test --log-junit backend/tests/_output/junit.xml
       - name: Upload Unit Report
         if: always()
         uses: actions/upload-artifact@v4
