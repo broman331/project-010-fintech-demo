@@ -210,14 +210,14 @@
  <body>
    <ul id="toolbar-filter">
      <li> <a href="#" title="Show all" onClick="showAllScenarios()">◯</a></li>
-     <li> <a href="#" title="Successful" onClick="toggleScenarios('scenarioSuccess', this.parentElement)"><strong>✔</strong> 4</a></li>
-     <li> <a href="#" title="Failed" onClick="toggleScenarios('scenarioFailed', this.parentElement)"><strong>✗</strong> 0</a></li>
+     <li> <a href="#" title="Successful" onClick="toggleScenarios('scenarioSuccess', this.parentElement)"><strong>✔</strong> 3</a></li>
+     <li> <a href="#" title="Failed" onClick="toggleScenarios('scenarioFailed', this.parentElement)"><strong>✗</strong> 1</a></li>
      <li> <a href="#" title="Skipped" onClick="toggleScenarios('scenarioSkipped', this.parentElement)"><strong>S</strong> 0</a></li>
      <li> <a href="#" title="Incomplete" onClick="toggleScenarios('scenarioIncomplete', this.parentElement)"><strong>I</strong> 0</a></li>
      <li> <a href="#" title="Useless" onClick="toggleScenarios('scenarioUseless', this.parentElement)"><strong>U</strong> 0</a></li>
    </ul>
  <div class="layout">
- <h1>Codeception Results <small><span style="color: green">OK</span> (00:01.254)</small></h1>
+ <h1>Codeception Results <small><span style="color: #e74c3c">FAILED</span> (00:01.383)</small></h1>
 
 
 
@@ -226,15 +226,15 @@
  <td>
      <h3>Tests.Api Tests</h3>
  </td>
-</tr>   <tr class="scenarioRow scenarioSuccess">
+</tr>   <tr class="scenarioRow scenarioFailed">
     <td>
-     <p class="scenarioSuccess" onclick="showHide('1', this)"><span class="toggle">+</span>
-          <span class="quiet">TransferCest &raquo;</span> Transfer money successfully <span style="color: #34495e; font-size: 70%;">0.39s</span></p>
+     <p class="scenarioFailed" onclick="showHide('1', this)"><span class="toggle">+</span>
+          <span class="quiet">TransferCest &raquo;</span> Transfer money successfully <span style="color: #34495e; font-size: 70%;">0.48s</span></p>
     </td>
    </tr>
-   <tr class="scenarioRow scenarioSuccess">
+   <tr class="scenarioRow scenarioFailed">
     <td>
-     <table border="0" width="100%" class="scenarioSuccess scenarioStepsTable" id="stepContainer1">
+     <table border="0" width="100%" class="scenarioFailed scenarioStepsTable" id="stepContainer1">
 
 
       <tr>
@@ -258,7 +258,7 @@
       </tr>
 
       <tr>
-       <td class="stepName ">&nbsp;&nbsp;&nbsp;&nbsp;I am bearer authenticated <span style="color: #732E81">&quot;11|R151RNI00BjmjB7buaFUPtoi4l94kBFhuTDmE2Drefefebfc&quot;</span></td>
+       <td class="stepName ">&nbsp;&nbsp;&nbsp;&nbsp;I am bearer authenticated <span style="color: #732E81">&quot;11|zeLun5DbPHNjnUnSGPM1rokl6UZ4yCyo7cOdtEhp2ebe3cd9&quot;</span></td>
       </tr>
 
       <tr>
@@ -270,13 +270,19 @@
       </tr>
 
       <tr>
-       <td class="stepName ">&nbsp;&nbsp;&nbsp;&nbsp;I see response contains json <span style="color: #732E81">{&quot;amount&quot;:50}</span></td>
+       <td class="stepName failedStep">&nbsp;&nbsp;&nbsp;&nbsp;I see response contains json <span style="color: #732E81">{&quot;transaction&quot;:{&quot;amount&quot;:50},&quot;from_account_balance&quot;:&quot;950.00&quot;,&quot;to_account_balance&quot;:&quot;550.00&quot;}</span></td>
       </tr>
 
 
+         <tr >
+    <td class="error">
+        Response JSON does not contain the provided JSON<br />
+
+    </td>
+</tr>
+
          
-         
-         
+         <tr><td class='error'>See <a href='Tests.Api.TransferCest.transferMoneySuccessfully.fail.json' target='_blank'>HTML snapshot</a> of a failed page</td></tr>
      </table>
 
 
@@ -312,7 +318,7 @@
       </tr>
 
       <tr>
-       <td class="stepName ">&nbsp;&nbsp;&nbsp;&nbsp;I am bearer authenticated <span style="color: #732E81">&quot;12|xWkFNWB8N9QCeb5uexLJoljQZXfQoDpetwI18d8jc3e7a150&quot;</span></td>
+       <td class="stepName ">&nbsp;&nbsp;&nbsp;&nbsp;I am bearer authenticated <span style="color: #732E81">&quot;12|kmaB7rQD0hDalrJ2qXqtUHHbxqhn9o7nqN7BbsVC27b2f14e&quot;</span></td>
       </tr>
 
       <tr>
@@ -345,7 +351,7 @@
    <tr class="scenarioRow scenarioSuccess">
     <td>
      <p class="scenarioSuccess" onclick="showHide('3', this)"><span class="toggle">+</span>
-          <span class="quiet">TransferCest &raquo;</span> List accounts <span style="color: #34495e; font-size: 70%;">0.26s</span></p>
+          <span class="quiet">TransferCest &raquo;</span> List accounts <span style="color: #34495e; font-size: 70%;">0.28s</span></p>
     </td>
    </tr>
    <tr class="scenarioRow scenarioSuccess">
@@ -370,7 +376,7 @@
       </tr>
 
       <tr>
-       <td class="stepName ">&nbsp;&nbsp;&nbsp;&nbsp;I am bearer authenticated <span style="color: #732E81">&quot;13|iqkJRq0FDY4rf3ZzVZWbudI3nXEBVwWYmHw0CSdZf0aee4ce&quot;</span></td>
+       <td class="stepName ">&nbsp;&nbsp;&nbsp;&nbsp;I am bearer authenticated <span style="color: #732E81">&quot;13|Z4GZIUdWf8JQY3yxQVdWDVgqdKaztspJkUsPNkw79eedd5f8&quot;</span></td>
       </tr>
 
       <tr>
@@ -403,7 +409,7 @@
    <tr class="scenarioRow scenarioSuccess">
     <td>
      <p class="scenarioSuccess" onclick="showHide('4', this)"><span class="toggle">+</span>
-          <span class="quiet">TransferCest &raquo;</span> List transactions <span style="color: #34495e; font-size: 70%;">0.26s</span></p>
+          <span class="quiet">TransferCest &raquo;</span> List transactions <span style="color: #34495e; font-size: 70%;">0.27s</span></p>
     </td>
    </tr>
    <tr class="scenarioRow scenarioSuccess">
@@ -428,7 +434,7 @@
       </tr>
 
       <tr>
-       <td class="stepName ">&nbsp;&nbsp;&nbsp;&nbsp;I am bearer authenticated <span style="color: #732E81">&quot;14|WjDmDeZkrxINjDNGypaHV4zmYO7WYcax1YqJBYyL26df5bac&quot;</span></td>
+       <td class="stepName ">&nbsp;&nbsp;&nbsp;&nbsp;I am bearer authenticated <span style="color: #732E81">&quot;14|xAtaOs9N2PpP70dZOagDwGoHh9k23wDglJpEBmCD5dc98057&quot;</span></td>
       </tr>
 
       <tr>
@@ -462,11 +468,11 @@
       <table border="0">
        <tr>
         <td width="250" class="scenarioSuccess">Successful scenarios:</td>
-        <td class="scenarioSuccessValue"><strong>4</strong></td>
+        <td class="scenarioSuccessValue"><strong>3</strong></td>
        </tr>
        <tr>
         <td class="scenarioFailed">Failed scenarios:</td>
-        <td class="scenarioFailedValue"><strong>0</strong></td>
+        <td class="scenarioFailedValue"><strong>1</strong></td>
        </tr>
        <tr>
         <td class="scenarioSkipped">Skipped scenarios:</td>
